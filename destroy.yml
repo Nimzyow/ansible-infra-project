@@ -1,0 +1,10 @@
+---
+
+- name: Destroy environment
+  hosts: localhost
+  vars:
+    - project_directory: "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/education/ansible/ssh_task"
+  tasks:
+    - name: Destroy Vagrant
+      ansible.builtin.include_role:
+        name: destroy_vagrant

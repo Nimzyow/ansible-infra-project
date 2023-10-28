@@ -1,0 +1,8 @@
+---
+- name: Setup inventory
+  ansible.builtin.template:
+    src: inventory.ini.j2
+    dest: "{{ project_directory }}/inventory/inventory.ini"
+    owner: "{{ lookup('ansible.builtin.env', 'USER') }}"
+    group: staff
+    mode: "0644"

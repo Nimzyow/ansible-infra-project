@@ -1,0 +1,18 @@
+---
+- name: Create tmp directory
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: ssh
+  register: sshdir_1
+
+- name: Create SSH keys in tmp directory
+  community.crypto.openssh_keypair:
+    path: "{{ sshdir_1.path }}/id_ssh_rsa"
+
+- name: Create template to define tmp directory
+  ansible.builtin.template:
+    src: main.yml.j2
+    dest: "{{ project_directory }}/roles/ssh_keys/defaults/main.yml"
+    owner: "{{ lookup('ansible.builtin.env', 'USER') }}"
+    group: staff
+    mode: "0644"

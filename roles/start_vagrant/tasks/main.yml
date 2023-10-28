@@ -1,0 +1,7 @@
+---
+
+- name: Start vagrant hosts
+  ansible.builtin.command:
+    cmd: "vagrant up"
+  register: my_output
+  changed_when: my_output.rc != 0

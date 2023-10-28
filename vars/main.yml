@@ -1,0 +1,5 @@
+project_directory: "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/education/ansible/ssh_task"
+owner: vagrant
+group: vagrant
+admin_port: 2230
+number_of_vagrant_hosts: 5

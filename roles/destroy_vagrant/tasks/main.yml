@@ -1,0 +1,12 @@
+---
+
+- name: Destroy vagrant
+  ansible.builtin.command:
+    cmd: "vagrant destroy --force"
+  register: my_output
+  changed_when: my_output.rc != 0
+
+- name: Destroy vagrant history
+  ansible.builtin.file:
+    path: "{{ project_directory }}/.vagrant"
+    state: absent
