@@ -5,7 +5,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.ssh.insert_key = false
 
   config.vm.define "webserver" do |webserver|
-    webserver.vm.box = "centos/8"
+    webserver.vm.box = "ubuntu/focal64"
     webserver.vm.network "forwarded_port", guest:22, host: 2230
     webserver.vm.network "forwarded_port", guest:80, host: 8080
     webserver.vm.network "private_network", ip: "10.2.2.200"

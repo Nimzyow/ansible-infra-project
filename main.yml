@@ -8,28 +8,28 @@
       ansible.builtin.include_role:
         name: start_vagrant
 
-- name: Generate SSH keys
-  hosts: localhost
-  vars_files:
-    - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/education/ansible/ssh_task/vars/main.yml"
-  tasks:
-    - name: Build SSH Keys
-      ansible.builtin.include_role:
-        name: ssh_keys
-        tasks_from: generate_keys/main.yml
+# - name: Generate SSH keys
+#   hosts: localhost
+#   vars_files:
+#     - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/education/ansible/ssh_task/vars/main.yml"
+#   tasks:
+#     - name: Build SSH Keys
+#       ansible.builtin.include_role:
+#         name: ssh_keys
+#         tasks_from: generate_keys/main.yml
 
-- name: Configure admin ssh
-  hosts: admin
-  tasks:
-    - name: Setup key in admin node
-      ansible.builtin.include_role:
-        name: ssh_keys
-        tasks_from: admin/main.yml
+# - name: Configure admin ssh
+#   hosts: admin
+#   tasks:
+#     - name: Setup key in admin node
+#       ansible.builtin.include_role:
+#         name: ssh_keys
+#         tasks_from: admin/main.yml
 
-- name: Configure public keys in webservers
-  hosts: webservers
-  tasks:
-    - name: Setup key in webservers node
-      ansible.builtin.include_role:
-        name: ssh_keys
-        tasks_from: webservers/main.yml
+# - name: Configure public keys in webservers
+#   hosts: webservers
+#   tasks:
+#     - name: Setup key in webservers node
+#       ansible.builtin.include_role:
+#         name: ssh_keys
+#         tasks_from: webservers/main.yml
