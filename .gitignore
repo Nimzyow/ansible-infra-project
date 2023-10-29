@@ -1,5 +1,7 @@
 .vagrant/
+/**/*/.vagrant/
 .vscode/
+/**/*/.vscode/
 
 # Django #
 *.log
