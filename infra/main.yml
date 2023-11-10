@@ -2,11 +2,22 @@
 - name: Initialise Vagrant
   hosts: localhost
   vars_files:
-    - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/vars/main.yml"
+    - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/infra/vars/main.yml"
   tasks:
     - name: Start Vagrant hosts
       ansible.builtin.include_role:
         name: start_vagrant
+
+- name: Initilise Django project
+  hosts: webserver
+  vars_files:
+    - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/infra/vars/main.yml"
+  tasks:
+    - name: Copy over Django project
+      ansible.builtin.include_role:
+        name: django_proj
+        tasks_from: copy_django_proj/main.yml
+
 
 # - name: Generate SSH keys
 #   hosts: localhost

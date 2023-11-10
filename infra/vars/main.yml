@@ -1,4 +1,4 @@
-project_directory: "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/education/ansible/ssh_task"
+project_directory: "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server"
 owner: vagrant
 group: vagrant
 admin_port: 2230

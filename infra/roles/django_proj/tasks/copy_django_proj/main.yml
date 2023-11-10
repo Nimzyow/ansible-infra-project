@@ -1,0 +1,8 @@
+---
+- name: Copy Django project
+  ansible.posix.synchronize:
+    src: "{{ project_directory }}/backend/"
+    dest: /home/vagrant/backend/
+    rsync_opts:
+      - "--exclude={{ project_directory }}/backend/.venv"
+      - "--exclude={{ project_directory }}/backend/db.sqlite3"
