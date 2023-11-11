@@ -7,11 +7,11 @@
 
 - name: Copy Django project
   ansible.posix.synchronize:
-    src: "{{ project_directory }}/backend/"
+    src: "{{ local_project_directory }}/backend/"
     dest: "/home/{{ owner }}/backend/"
     rsync_opts:
-      - "--exclude={{ project_directory }}/backend/.venv"
-      - "--exclude={{ project_directory }}/backend/db.sqlite3"
+      - "--exclude={{ local_project_directory }}/backend/.venv"
+      - "--exclude={{ local_project_directory }}/backend/db.sqlite3"
 
 - name: Install pip3
   become: true
@@ -34,8 +34,8 @@
     requirements: "/home/{{ owner }}/backend/requirements.txt"
     virtualenv: "/home/{{ owner }}/backend/venv"
 
-# - name: Run Django server
-#   ansible.builtin.shell:
-#     cmd: "source /home/{{ owner }}/backend/venv/bin/activate && python3 manage.py runserver"
-#   register: source_output
-#   changed_when: source_output.rc != 0
+- name: Run Django server
+  ansible.builtin.command:
+    cmd: "nohup {{ virtual_env_python_interpreter }} {{ host_project_directory }}/manage.py runserver 0.0.0.0:8000 &"
+  register: source_output
+  changed_when: source_output.rc != 0

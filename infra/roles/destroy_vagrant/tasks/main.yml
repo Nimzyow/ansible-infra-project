@@ -8,5 +8,5 @@
 
 - name: Destroy vagrant history
   ansible.builtin.file:
-    path: "{{ project_directory }}/infra/.vagrant"
+    path: "{{ local_project_directory }}/infra/.vagrant"
     state: absent

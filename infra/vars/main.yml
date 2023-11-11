@@ -1,4 +1,7 @@
-project_directory: "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server"
+local_project_directory: "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server"
+local_virtual_env_directory: "{{ project_directory }}/backend/venv"
+host_project_directory: "/home/{{ owner }}/backend"
+virtual_env_python_interpreter: "{{ host_project_directory }}/venv/bin/python3"
 owner: vagrant
 group: vagrant
 admin_port: 2230

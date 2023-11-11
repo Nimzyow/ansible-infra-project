@@ -1,12 +1,5 @@
 ---
 
-- name: Install Vagrant
-  community.general.homebrew:
-    update_homebrew: true
-    name:
-      - hashicorp/tap/hashicorp-vagrant
-    state: present
-
 - name: Start vagrant hosts
   ansible.builtin.command:
     cmd: "vagrant up"

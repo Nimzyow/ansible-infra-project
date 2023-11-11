@@ -12,7 +12,7 @@
 - name: Create template to define tmp directory
   ansible.builtin.template:
     src: main.yml.j2
-    dest: "{{ project_directory }}/roles/ssh_keys/defaults/main.yml"
+    dest: "{{ local_project_directory }}/roles/ssh_keys/defaults/main.yml"
     owner: "{{ lookup('ansible.builtin.env', 'USER') }}"
     group: staff
     mode: "0644"
