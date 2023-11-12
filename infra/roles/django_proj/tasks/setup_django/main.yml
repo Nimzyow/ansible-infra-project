@@ -1,0 +1,14 @@
+---
+
+- name: Copy Django project
+  ansible.posix.synchronize:
+    src: "{{ local_project_directory }}/backend/"
+    dest: "/home/{{ owner }}/backend/"
+    rsync_opts:
+      - "--exclude={{ local_project_directory }}/backend/.venv"
+      - "--exclude={{ local_project_directory }}/backend/db.sqlite3"
+
+- name: Install Django dependencies
+  ansible.builtin.pip:
+    requirements: "/home/{{ owner }}/backend/requirements.txt"
+    virtualenv: "/home/{{ owner }}/backend/venv"

@@ -1,0 +1,23 @@
+---
+# - name: Run apt-get update
+#   become: true
+#   become_user: root
+#   ansible.builtin.apt:
+#     update_cache: true
+
+- name: Install pip3
+  become: true
+  become_user: root
+  ansible.builtin.apt:
+    update_cache: true
+    name:
+      - python3-pip
+      - python3.8-venv
+    state: present
+
+- name: Install virtualenv via pip3
+  become: true
+  become_user: root
+  ansible.builtin.pip:
+    name: virtualenv
+    executable: "{{ pip_executable }}"

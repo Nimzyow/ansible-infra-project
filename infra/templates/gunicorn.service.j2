@@ -1,0 +1,14 @@
+[Unit]
+Description=Gunicorn to start Django
+After=network.target
+
+[Service]
+User={{ owner }}
+Group={{ group }}
+WorkingDirectory={{ host_project_directory }}
+ExecStart={{ host_virtual_env_bin_directory }}/gunicorn -c {{ host_project_directory }}/gunicorn_config.py django_project.wsgi:application
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

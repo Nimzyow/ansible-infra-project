@@ -5,8 +5,19 @@
 # if you try to use a variable that has not been set.
 set -eu
 
+GREEN=$(tput setaf 2)
+RESET=$(tput sgr0)
 USER="${USER}"
 
-echo "Starting main playbook"
+which ansible
+
+if [$? -ne 0]
+  then
+    exit 1
+  else
+    python3 -m pip install --user ansible
+fi
+
+echo "${GREEN}Starting main playbook${RESET}"
 ansible-playbook main.yml -i inventory/inventory.ini -vvv
-echo "Finished playbook"
+echo "${GREEN}Finished playbook${RESET}"
