@@ -10,12 +10,24 @@ RESET=$(tput sgr0)
 USER="${USER}"
 
 which ansible
+ansible_installed_status="$($?)"
+which vagrant
+vagrant_installed_status="$($?)"
 
-if [$? -ne 0]
+if [ansible_installed_status -ne 0]
   then
+    echo "Please install Ansible\n\n"
+    echo "Installation instructions\n"
+    echo "python3 -m pip install --user ansible"
     exit 1
-  else
-    python3 -m pip install --user ansible
+fi
+
+if [vagrant_installed_status -ne 0]
+  then
+    echo "Please install Vagrant\n\n"
+    echo "Installation instructions:\n"
+    echo "brew tap hashicorp/tap\nbrew install hashicorp/tap/hashicorp-vagrant"
+    exit 1
 fi
 
 echo "${GREEN}Starting main playbook${RESET}"
