@@ -10,9 +10,9 @@ RESET=$(tput sgr0)
 USER="${USER}"
 
 which ansible
-ansible_installed_status="$($?)"
+ansible_installed_status=$?
 which vagrant
-vagrant_installed_status="$($?)"
+vagrant_installed_status=$?
 
 if [ansible_installed_status -ne 0]
   then

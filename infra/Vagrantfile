@@ -4,10 +4,18 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Use the same key for each machine
   config.ssh.insert_key = false
 
-  config.vm.define "vagrant1" do |vagrant1|
-    vagrant1.vm.box = "ubuntu/focal64"
-    vagrant1.vm.network "forwarded_port", guest:22, host: 2230
-    vagrant1.vm.network "forwarded_port", guest:8000, host: 8001
-    # vagrant1.vm.network "private_network", ip: "10.2.2.200"
+  config.vm.define "server" do |server|
+    server.vm.box = "ubuntu/focal64"
+    server.vm.network "forwarded_port", guest:22, host: 2230
+    server.vm.network "private_network", ip: "10.2.2.200"
+    # vagrant1.vm.network "forwarded_port", guest:8000, host: 8001
+  end
+
+  config.vm.define "loadbalancer" do |loadbalancer|
+    loadbalancer.vm.box = "ubuntu/focal64"
+    loadbalancer.vm.network "forwarded_port", guest:22, host: 2231
+    loadbalancer.vm.network "private_network", ip: "10.2.2.201"
+    loadbalancer.vm.hostname = "loadbalancer"
+    # loadBalancer.vm.network "forwarded_port", guest:8000, host: 8001
   end
 end

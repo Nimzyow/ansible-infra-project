@@ -49,6 +49,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+ALLOWED_HOSTS = ['10.2.2.201']
+
 ROOT_URLCONF = 'django_project.urls'
 
 TEMPLATES = [

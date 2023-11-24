@@ -29,3 +29,25 @@
       ansible.builtin.include_role:
         name: django_proj
         tasks_from: initialise_systemd/main.yml
+
+- name: Initilise Loadbalancer
+  hosts: reverse_proxy
+  vars_files:
+    - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/infra/vars/main.yml"
+  tasks:
+    - name: Setup environment
+      ansible.builtin.include_role:
+        name: loadbalancer
+        tasks_from: install_environment_deps/main.yml
+    # - name: Setup Django
+    #   ansible.builtin.include_role:
+    #     name: django_proj
+    #     tasks_from: setup_django/main.yml
+    # - name: Setup Gunicorn
+    #   ansible.builtin.include_role:
+    #     name: django_proj
+    #     tasks_from: setup_gunicorn/main.yml
+    # - name: Initialise gunicorn systemd
+    #   ansible.builtin.include_role:
+    #     name: django_proj
+    #     tasks_from: initialise_systemd/main.yml

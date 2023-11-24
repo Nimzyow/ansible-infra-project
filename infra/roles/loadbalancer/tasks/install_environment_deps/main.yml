@@ -1,0 +1,26 @@
+---
+- name: Install nginx
+  become: true
+  become_user: root
+  ansible.builtin.apt:
+    update_cache: true
+    name:
+      - nginx
+    state: present
+
+- name: Configure nginx
+  become: true
+  become_user: root
+  ansible.builtin.template:
+    src: nginx.conf.j2
+    dest: "/etc/nginx/nginx.conf"
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Restart nginx service
+  become: true
+  become_user: root
+  ansible.builtin.systemd:
+    name: nginx
+    state: restarted
