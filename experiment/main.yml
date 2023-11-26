@@ -10,19 +10,6 @@
       register: my_output
       changed_when: my_output.rc != 0
 
-- name: Copy nextjs app onto frontend
-  hosts: frontend
-  vars_files:
-    - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/infra/vars/main.yml"
-  tasks:
-    - name: Copy nextjs app to frontend
-      ansible.posix.synchronize:
-        src: "{{ local_project_directory }}/frontend/"
-        dest: "/home/{{ owner }}/frontend/"
-        rsync_opts:
-          - "--exclude={{ local_project_directory }}/frontend/node_modules"
-          - "--exclude={{ local_project_directory }}/frontend/.next"
-
 - name: Install docker
   hosts: frontend
   become: true
@@ -32,6 +19,24 @@
         update_cache: true
         name: docker.io
         state: present
+    - name: Run container
+      community.docker.docker_container:
+        name: nextjs
+        state: started
+        image: nimzy/next-demo-app
+        ports:
+          - 3000:3000
+
+
+# - name: Pull image
+#   hosts: frontend
+#   become: true
+#   tasks:
+#     - name: Pull nextjs image
+#       community.docker.docker_image:
+#         name: nimzy/next-demo-app:latest
+#         source: pull
+
 
 # - name: Pull node image
 #   hosts: frontend
