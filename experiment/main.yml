@@ -1,0 +1,60 @@
+---
+- name: Initialise Vagrant
+  hosts: localhost
+  vars_files:
+    - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/infra/vars/main.yml"
+  tasks:
+    - name: Start Vagrant hosts
+      ansible.builtin.command:
+        cmd: "vagrant up"
+      register: my_output
+      changed_when: my_output.rc != 0
+
+- name: Copy nextjs app onto frontend
+  hosts: frontend
+  vars_files:
+    - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/infra/vars/main.yml"
+  tasks:
+    - name: Copy nextjs app to frontend
+      ansible.posix.synchronize:
+        src: "{{ local_project_directory }}/frontend/"
+        dest: "/home/{{ owner }}/frontend/"
+        rsync_opts:
+          - "--exclude={{ local_project_directory }}/frontend/node_modules"
+          - "--exclude={{ local_project_directory }}/frontend/.next"
+
+- name: Install docker
+  hosts: frontend
+  become: true
+  tasks:
+    - name: Install global packages
+      ansible.builtin.apt:
+        update_cache: true
+        name: docker.io
+        state: present
+
+# - name: Pull node image
+#   hosts: frontend
+#   tasks:
+#     - name: Pull node image
+#       community.docker.docker_image:
+#         name: node
+
+# - name: Install npm packages
+#   hosts: frontend
+#   become: true
+#   tasks:
+#     - name: Install global packages
+#       community.general.npm:
+#         name: "{{ item }}"
+#         state: present
+#         global: true
+#       loop:
+#         - pm2
+
+# - name: Install frontend packages
+#   hosts: frontend
+#   tasks:
+#     - name: Install frontend packages
+#       community.general.npm:
+#         path: /home/vagrant/frontend

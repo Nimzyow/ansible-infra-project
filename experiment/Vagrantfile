@@ -1,0 +1,24 @@
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  # Use the same key for each machine
+  config.ssh.insert_key = false
+  
+  config.vm.define "frontend" do |frontend|
+    frontend.vm.box = "ubuntu/focal64"
+    frontend.vm.network "forwarded_port", guest:22, host: 2230
+    frontend.vm.network "forwarded_port", guest:3000, host: 3001
+    frontend.vm.network "private_network", ip: "10.2.2.200"
+    frontend.vm.hostname = "frontend"
+    # loadBalancer.vm.network "forwarded_port", guest:8000, host: 8001
+  end
+
+  config.vm.define "frontendReverseProxy" do |frontendReverseProxy|
+    frontendReverseProxy.vm.box = "ubuntu/focal64"
+    frontendReverseProxy.vm.network "forwarded_port", guest:22, host: 2231
+    # frontendReverseProxy.vm.network "forwarded_port", guest:3000, host: 3001
+    frontendReverseProxy.vm.network "private_network", ip: "10.2.2.201"
+    frontendReverseProxy.vm.hostname = "frontendReverseProxy"
+    # loadBalancer.vm.network "forwarded_port", guest:8000, host: 8001
+  end
+end
