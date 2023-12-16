@@ -3,6 +3,6 @@
   become: true
   become_user: root
   ansible.builtin.systemd:
-    name: "{{ app_name }}-gunicorn.service"
+    name: "{{ service_name }}"
     enabled: true
     state: started

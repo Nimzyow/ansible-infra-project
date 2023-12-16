@@ -1,6 +1,7 @@
 app_name: webserver
 local_project_directory: "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server"
 host_project_directory: "/home/{{ owner }}/backend"
+frontend_host_project_directory: "/home/{{ owner }}/frontend"
 host_virtual_env_bin_directory: "{{ host_project_directory }}/venv/bin"
 owner: vagrant
 group: vagrant

@@ -25,8 +25,6 @@ SECRET_KEY = '8j6+jh(a&ft0!-=fc&e^k$0+=x+=#3atx!ps&q0^0$^+m!+j22'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -49,7 +47,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ALLOWED_HOSTS = ['10.2.2.201']
+ALLOWED_HOSTS = ['10.2.2.202', 'backend']
 
 ROOT_URLCONF = 'django_project.urls'
 

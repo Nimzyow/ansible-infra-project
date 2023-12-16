@@ -3,8 +3,8 @@ events {
 }
 http {
   upstream backend {
-      server 10.2.2.200:8000 weight=0.5;
-      server 10.2.2.200:8000 weight=0.5;
+      server 10.2.2.203:8000 weight=1;
+      server 10.2.2.204:8000 weight=1;
   }
   
   server {

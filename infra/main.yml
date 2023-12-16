@@ -40,16 +40,6 @@
         name: loadbalancer
         tasks_from: install_environment_deps/main.yml
 
-- name: Build frontend app
-  hosts: localhost
-  vars_files:
-    - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/infra/vars/main.yml"
-  tasks:
-    - name: Build frontend
-      ansible.builtin.include_role:
-        name: frontend
-        tasks_from: build_frontend/main.yml
-
 - name: Initialise frontend
   hosts: frontend
   vars_files:
@@ -59,3 +49,13 @@
       ansible.builtin.include_role:
         name: frontend
         tasks_from: initialise_frontend/main.yml
+
+- name: Initilise frontend Loadbalancer
+  hosts: frontend_load_balancer
+  vars_files:
+    - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/infra/vars/main.yml"
+  tasks:
+    - name: Setup environment
+      ansible.builtin.include_role:
+        name: loadbalancer
+        tasks_from: frontend/main.yml

@@ -1,0 +1,15 @@
+[Unit]
+Description=Start frontend
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutStartSec=0
+Restart=always
+ExecStartPre=-/usr/bin/docker stop frontend
+ExecStartPre=-/usr/bin/docker rm frontend
+ExecStartPre=/usr/bin/docker pull nimzy/next-demo-app
+ExecStart=/usr/bin/docker run --rm --name frontend -p 3000:3000 nimzy/next-demo-app
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,18 @@
+---
+- name: Install global packages
+  become: true
+  become_user: root
+  ansible.builtin.apt:
+    update_cache: true
+    name: docker.io
+    state: present
+
+- name: Run container
+  become: true
+  become_user: root
+  community.docker.docker_container:
+    name: nextjs
+    state: started
+    image: nimzy/next-demo-app
+    ports:
+      - 3000:3000

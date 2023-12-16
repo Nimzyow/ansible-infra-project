@@ -1,2 +1,3 @@
 ---
 pip_executable: pip3
+service_name: "{{ app_name }}-gunicorn.service"
