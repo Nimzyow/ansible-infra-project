@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
@@ -45,9 +46,16 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
-ALLOWED_HOSTS = ['10.2.2.202', 'backend']
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://10.2.2.202",
+]
+
+ALLOWED_HOSTS = ['10.2.2.202', 'backend', 'localhost']
 
 ROOT_URLCONF = 'django_project.urls'
 
