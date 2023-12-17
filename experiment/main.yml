@@ -4,62 +4,26 @@
   vars_files:
     - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/infra/vars/main.yml"
   tasks:
-    - name: Start Vagrant hosts
-      ansible.builtin.command:
-        cmd: "vagrant up"
-      register: my_output
-      changed_when: my_output.rc != 0
+    - name: Check if the IP is in the list
+      ansible.builtin.command: grep -q 'http://hello-this-works' "{{ local_project_directory }}/experiment/settings.py"
+      register: ip_check
+      changed_when: false
+      ignore_errors: true
 
-- name: Install docker
-  hosts: frontend
-  become: true
-  tasks:
-    - name: Install global packages
-      ansible.builtin.apt:
-        update_cache: true
-        name: docker.io
-        state: present
-    - name: Run container
-      community.docker.docker_container:
-        name: nextjs
-        state: started
-        image: nimzy/next-demo-app
-        ports:
-          - 3000:3000
+    - name: Set a variable based on file content
+      ansible.builtin.set_fact:
+        file_contains_ip: "{{ 'http://hello-this-works' in lookup('file', '{{ local_project_directory }}/experiment/settings.py') }}"
 
+    - name: Update the list if IP is not present
+      ansible.builtin.replace:
+        path: "{{ local_project_directory }}/experiment/settings.py"
+        regexp: '(CORS_ALLOWED_ORIGINS = \[)'
+        replace: '\1\n\t"http://hello-this-works",'
+      when: ip_check.rc != 0
 
-# - name: Pull image
-#   hosts: frontend
-#   become: true
-#   tasks:
-#     - name: Pull nextjs image
-#       community.docker.docker_image:
-#         name: nimzy/next-demo-app:latest
-#         source: pull
-
-
-# - name: Pull node image
-#   hosts: frontend
-#   tasks:
-#     - name: Pull node image
-#       community.docker.docker_image:
-#         name: node
-
-# - name: Install npm packages
-#   hosts: frontend
-#   become: true
-#   tasks:
-#     - name: Install global packages
-#       community.general.npm:
-#         name: "{{ item }}"
-#         state: present
-#         global: true
-#       loop:
-#         - pm2
-
-# - name: Install frontend packages
-#   hosts: frontend
-#   tasks:
-#     - name: Install frontend packages
-#       community.general.npm:
-#         path: /home/vagrant/frontend
+    - name: Replace existing IP with http://10.2.2.202
+      ansible.builtin.replace:
+        path: "{{ local_project_directory }}/experiment/settings.py"
+        regexp: '"http://10.2.2[^"]*"'
+        replace: '"http://hello-this-works"'
+      when: ip_check.rc == 0 and not file_contains_ip
