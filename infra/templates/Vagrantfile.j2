@@ -1,0 +1,46 @@
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  # Use the same key for each machine
+  config.ssh.insert_key = false
+
+  config.vm.define "feLoadBalancer" do |feLoadBalancer|
+    feLoadBalancer.vm.box = "ubuntu/focal64"
+    feLoadBalancer.vm.network "forwarded_port", guest:22, host: {{ ssh_host }}
+    feLoadBalancer.vm.network "private_network", ip: "{{ frontend_reverse_proxy_ip_address }}"
+    feLoadBalancer.vm.hostname = "feLoadBalancer"
+    # loadBalancer.vm.network "forwarded_port", guest:8000, host: 8001
+  end
+
+  config.vm.define "frontend" do |frontend|
+    frontend.vm.box = "ubuntu/focal64"
+    frontend.vm.network "forwarded_port", guest:22, host: {{ ssh_host + 1 }}
+    frontend.vm.network "private_network", ip: "{{ frontend_ip_address }}"
+    frontend.vm.hostname = "frontend"
+    # frontend.vm.network "forwarded_port", guest:3000, host: 3001
+    # loadBalancer.vm.network "forwarded_port", guest:8000, host: 8001
+  end
+  
+  config.vm.define "loadbalancer" do |loadbalancer|
+    loadbalancer.vm.box = "ubuntu/focal64"
+    loadbalancer.vm.network "forwarded_port", guest:22, host: {{ ssh_host + 2 }}
+    loadbalancer.vm.network "private_network", ip: "{{ backend_load_balancer_ip_address }}"
+    loadbalancer.vm.hostname = "loadbalancer"
+    # loadBalancer.vm.network "forwarded_port", guest:8000, host: 8001
+  end
+  
+  
+  config.vm.define "server_a" do |server|
+    server.vm.box = "ubuntu/focal64"
+    server.vm.network "forwarded_port", guest:22, host: {{ ssh_host + 3 }}
+    server.vm.network "private_network", ip: "{{ server_a_ip_address }}"
+    # vagrant1.vm.network "forwarded_port", guest:8000, host: 8001
+  end
+  
+  config.vm.define "server_b" do |server|
+    server.vm.box = "ubuntu/focal64"
+    server.vm.network "forwarded_port", guest:22, host: {{ ssh_host + 4 }}
+    server.vm.network "private_network", ip: "{{ server_b_ip_address }}"
+    # vagrant1.vm.network "forwarded_port", guest:8000, host: 8001
+  end
+end

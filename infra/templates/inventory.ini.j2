@@ -1,0 +1,14 @@
+[frontend_load_balancer]
+vagrant0 ansible_port={{ ssh_host }} ansible_user=vagrant
+
+[frontend]
+vagrant1 ansible_port={{ ssh_host + 1 }} ansible_user=vagrant
+
+[reverse_proxy]
+vagrant2 ansible_port={{ ssh_host + 2 }} ansible_user=vagrant
+
+[webserver]
+vagrant3 ansible_port={{ ssh_host + 3 }} ansible_user=vagrant
+vagrant4 ansible_port={{ ssh_host + 4 }} ansible_user=vagrant
+
+

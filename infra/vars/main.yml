@@ -1,3 +1,11 @@
+last_octet: 200
+frontend_reverse_proxy_ip_address: "10.2.2.{{ last_octet }}"
+frontend_ip_address: "10.2.2.{{ last_octet + 1 }}"
+backend_load_balancer_ip_address: "10.2.2.{{ last_octet + 2 }}"
+server_a_ip_address: "10.2.2.{{ last_octet + 3 }}"
+server_b_ip_address: "10.2.2.{{ last_octet + 4 }}"
+ssh_host: 2230
+
 app_name: webserver
 local_project_directory: "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server"
 host_project_directory: "/home/{{ owner }}/backend"
