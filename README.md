@@ -37,3 +37,11 @@ So in the case of your local macbook ssh'ing into a locally spun up vagrant mach
 To ssh:
 
 `ssh -i /Users/yournameprobably/.vagrant.d/insecure_private_keys/vagrant.key.rsa -p 2222 vagrant@127.0.0.1`
+
+# Things left to do
+
+* Set up Kubernetes to orchestrate the frontend application rather than have systemd run the docker run command. If application fails, systemd would not restart the container. systemd is not a replacement for a container orchestrator
+* Do a write up on various aspects of the project.
+  * Provide diagram
+  * write about the decision making for having an nginx server for the frontend
+  * write about how to avoid CORS issues with nginx configurations for frontend and backend reverse proxies
