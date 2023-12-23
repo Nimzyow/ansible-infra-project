@@ -1,6 +1,10 @@
 # Pre requisite
 
-Make sure you have ansible installed
+Make sure you have installed:
+1 - Ansible
+2 - Vagrant
+
+Also prepare for your laptop to sound like it's about to take off...especially if you're on an intel macbook pro
 
 # Start
 
@@ -14,6 +18,7 @@ Make sure you have ansible installed
 ./destroy-vms.sh
 ```
 
+# Random notes
 
 A few notes on ssh'ing or scp'ing into vagrant machine
 
