@@ -3,15 +3,15 @@ events {
 }
 
 http {
-  upstream backend {
-      server 10.2.2.203:8000 weight=1;
-      server 10.2.2.204:8000 weight=1;
+  upstream {{ backend_load_balancer_name }} {
+      server {{ server_a_ip_address }}:8000 weight=1;
+      server {{ server_b_ip_address }}:8000 weight=1;
   }
   
   server {
       location / {
-          proxy_pass http://backend;
-          add_header 'Access-Control-Allow-Origin' 'http://10.2.2.200';
+          proxy_pass http://{{ backend_load_balancer_name }};
+          add_header 'Access-Control-Allow-Origin' 'http://{{ frontend_load_balancer_ip_address }}';
           add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
           add_header 'Access-Control-Allow-Headers' 
                       'DNT,

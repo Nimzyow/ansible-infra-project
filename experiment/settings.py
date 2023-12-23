@@ -51,14 +51,14 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-	"http://hello-this-works",
+	"http://10.2.2.202",
     "http://localhost:3000",
-]
+    ]
 
 ALLOWED_HOSTS = [
-    '10.2.2.202',
-    'backend',
-    'localhost'
+	"10.2.2.202",
+	"backendLoadBalancer",
+    "localhost"
     ]
 
 ROOT_URLCONF = 'django_project.urls'

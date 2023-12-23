@@ -1,15 +1,38 @@
-last_octet: 200
-frontend_reverse_proxy_ip_address: "10.2.2.{{ last_octet }}"
-frontend_ip_address: "10.2.2.{{ last_octet + 1 }}"
-backend_load_balancer_ip_address: "10.2.2.{{ last_octet + 2 }}"
-server_a_ip_address: "10.2.2.{{ last_octet + 3 }}"
-server_b_ip_address: "10.2.2.{{ last_octet + 4 }}"
-ssh_host: 2230
-
 app_name: webserver
-local_project_directory: "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server"
-host_project_directory: "/home/{{ owner }}/backend"
-frontend_host_project_directory: "/home/{{ owner }}/frontend"
-host_virtual_env_bin_directory: "{{ host_project_directory }}/venv/bin"
+last_octet: 200
 owner: vagrant
 group: vagrant
+ssh_host: 2230
+local_project_directory: "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server"
+
+################################
+#  Frontend load balancer
+################################
+frontend_load_balancer_name: "frontendLoadBalancer"
+frontend_load_balancer_ip_address: "10.2.2.{{ last_octet }}"
+
+################################
+#  Frontend
+################################
+frontend_name: "frontendWebApp"
+frontend_ip_address: "10.2.2.{{ last_octet + 1 }}"
+frontend_host_project_directory: "/home/{{ owner }}/frontend"
+frontend_docker_image: "nimzy/next-demo-app"
+
+################################
+#  Backend load balancer
+################################
+backend_load_balancer_name: "backendLoadBalancer"
+backend_load_balancer_ip_address: "10.2.2.{{ last_octet + 2 }}"
+
+
+################################
+#  Backend Django application
+################################
+server_a_name: "serverA"
+server_b_name: "serverB"
+server_a_ip_address: "10.2.2.{{ last_octet + 3 }}"
+server_b_ip_address: "10.2.2.{{ last_octet + 4 }}"
+backend_host_project_directory: "/home/{{ owner }}/backend"
+backend_host_settings_path: "{{ backend_host_project_directory }}/django_project/settings.py"
+backend_host_virtual_env_bin_directory: "{{ backend_host_project_directory }}/venv/bin"

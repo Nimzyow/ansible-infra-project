@@ -5,8 +5,8 @@ After=network.target
 [Service]
 User={{ owner }}
 Group={{ group }}
-WorkingDirectory={{ host_project_directory }}
-ExecStart={{ host_virtual_env_bin_directory }}/gunicorn -c {{ host_project_directory }}/gunicorn_config.py django_project.wsgi:application
+WorkingDirectory={{ backend_host_project_directory }}
+ExecStart={{ backend_host_virtual_env_bin_directory }}/gunicorn -c {{ backend_host_project_directory }}/gunicorn_config.py django_project.wsgi:application
 Restart=on-failure
 RestartSec=5s
 

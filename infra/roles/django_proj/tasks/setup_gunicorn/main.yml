@@ -2,7 +2,7 @@
 - name: Template gunicorn config file
   ansible.builtin.template:
     src: gunicorn_config.py.j2
-    dest: "{{ host_project_directory }}/gunicorn_config.py"
+    dest: "{{ backend_host_project_directory }}/gunicorn_config.py"
     owner: "{{ owner }}"
     group: "{{ group }}"
     mode: "0644"

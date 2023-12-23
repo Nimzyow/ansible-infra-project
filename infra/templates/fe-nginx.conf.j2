@@ -2,13 +2,13 @@ events {
   worker_connections  4096;  ## Default: 1024
 }
 http {
-  upstream frontend {
-      server 10.2.2.201:3000 weight=1;
+  upstream {{ frontend_load_balancer_name }} {
+      server {{ frontend_ip_address }}:3000 weight=1;
   }
   
   server {
       location / {
-          proxy_pass http://frontend;
+          proxy_pass http://{{ frontend_load_balancer_name }};
       }
   }
 }
