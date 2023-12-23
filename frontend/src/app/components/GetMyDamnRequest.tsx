@@ -22,7 +22,7 @@ const GetMyDamnRequest = () => {
   }
 
   return (
-    <div><p>{loading ? "Loading...." : store}</p></div>
+    <div><p>{loading ? "Loading...." : store + "\nCommunicated successfully with backend :)"}</p></div>
   )
 }
 
