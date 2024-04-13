@@ -18,6 +18,10 @@ Also prepare for your laptop to sound like it's about to take off...especially i
 ./destroy-vms.sh
 ```
 
+# Manual test
+
+Enter the ip address of the frontend nginx server, found in infra/Vagrantfile
+
 # Random notes
 
 A few notes on ssh'ing or scp'ing into vagrant machine
@@ -40,8 +44,12 @@ To ssh:
 
 # Things left to do
 
-* Set up Kubernetes to orchestrate the frontend application rather than have systemd run the docker run command. If application fails, systemd would not restart the container. systemd is not a replacement for a container orchestrator
+* Set up Kubernetes to orchestrate the frontend application rather than have systemd run the docker run command. If application fails, systemd would not restart the container. systemd is not a replacement for a container orchestrator. Edit: Because the frontend is only being run in one vagrant machine, there is no need for a container orchestrator for now. But if you REALLY want to experiment, you could try setting up nomad?
 * Do a write up on various aspects of the project.
   * Provide diagram
   * write about the decision making for having an nginx server for the frontend
   * write about how to avoid CORS issues with nginx configurations for frontend and backend reverse proxies
+* Enable MTLS. Shouldn't be able to just query ip address of server
+* Django admin should be accessible via public internet.
+* Django should create static assets and the nginx reverse proxy should serve them.
+* Frontend container is 
