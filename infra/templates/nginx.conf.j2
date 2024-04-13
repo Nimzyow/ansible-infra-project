@@ -4,7 +4,8 @@ events {
 
 http {
   upstream {{ backend_load_balancer_name }} {
-      server {{ server_a_ip_address }}:8000 weight=1;
+    # With this configuration of weights, out of every 3 requests, 2 are sent to server A and 1 to server B.
+      server {{ server_a_ip_address }}:8000 weight=3;
       server {{ server_b_ip_address }}:8000 weight=1;
   }
   
