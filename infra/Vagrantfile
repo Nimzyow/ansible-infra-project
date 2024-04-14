@@ -4,37 +4,44 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Use the same key for each machine
   config.ssh.insert_key = false
 
-  config.vm.define "frontendLoadBalancer" do |frontendLoadBalancer|
-    frontendLoadBalancer.vm.box = "ubuntu/focal64"
-    frontendLoadBalancer.vm.network "forwarded_port", guest:22, host: 2230
-    frontendLoadBalancer.vm.network "private_network", ip: "10.2.2.200"
-    frontendLoadBalancer.vm.hostname = "frontendLoadBalancer"
+  config.vm.define "frontendReverseProxy" do |frontendReverseProxy|
+    frontendReverseProxy.vm.box = "ubuntu/focal64"
+    frontendReverseProxy.vm.network "forwarded_port", guest:22, host: 2230
+    frontendReverseProxy.vm.network "private_network", ip: "10.2.2.200"
+    frontendReverseProxy.vm.hostname = "frontendReverseProxy"
+  end
+
+  config.vm.define "nomadLoadBalancer" do |nomadLoadBalancer|
+    nomadLoadBalancer.vm.box = "ubuntu/focal64"
+    nomadLoadBalancer.vm.network "forwarded_port", guest:22, host: 2231
+    nomadLoadBalancer.vm.network "private_network", ip: "10.2.2.201"
+    nomadLoadBalancer.vm.hostname = "nomadLoadBalancer"
   end
 
   config.vm.define "frontendWebApp" do |frontendWebApp|
     frontendWebApp.vm.box = "ubuntu/focal64"
-    frontendWebApp.vm.network "forwarded_port", guest:22, host: 2231
-    frontendWebApp.vm.network "private_network", ip: "10.2.2.201"
+    frontendWebApp.vm.network "forwarded_port", guest:22, host: 2232
+    frontendWebApp.vm.network "private_network", ip: "10.2.2.202"
     frontendWebApp.vm.hostname = "frontendWebApp"
   end
   
   config.vm.define "backendLoadBalancer" do |backendLoadBalancer|
     backendLoadBalancer.vm.box = "ubuntu/focal64"
-    backendLoadBalancer.vm.network "forwarded_port", guest:22, host: 2232
-    backendLoadBalancer.vm.network "private_network", ip: "10.2.2.202"
+    backendLoadBalancer.vm.network "forwarded_port", guest:22, host: 2233
+    backendLoadBalancer.vm.network "private_network", ip: "10.2.2.203"
     backendLoadBalancer.vm.hostname = "backendLoadBalancer"
   end
   
   
   config.vm.define "serverA" do |server|
     server.vm.box = "ubuntu/focal64"
-    server.vm.network "forwarded_port", guest:22, host: 2233
-    server.vm.network "private_network", ip: "10.2.2.203"
+    server.vm.network "forwarded_port", guest:22, host: 2234
+    server.vm.network "private_network", ip: "10.2.2.204"
   end
   
   config.vm.define "serverB" do |server|
     server.vm.box = "ubuntu/focal64"
-    server.vm.network "forwarded_port", guest:22, host: 2234
-    server.vm.network "private_network", ip: "10.2.2.204"
+    server.vm.network "forwarded_port", guest:22, host: 2235
+    server.vm.network "private_network", ip: "10.2.2.205"
   end
 end

@@ -12,7 +12,7 @@ http {
   server {
       location / {
           proxy_pass http://{{ backend_load_balancer_name }};
-          add_header 'Access-Control-Allow-Origin' 'http://{{ frontend_load_balancer_ip_address }}';
+          add_header 'Access-Control-Allow-Origin' 'http://{{ frontend_reverse_proxy_ip_address }}';
           add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
           add_header 'Access-Control-Allow-Headers' 
                       'DNT,
