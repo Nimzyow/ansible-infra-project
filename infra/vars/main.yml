@@ -24,9 +24,9 @@ nomad_ssh_host: "{{ ssh_host + 1 }}"
 ################################
 frontend_name: "frontendWebApp"
 frontend_ip_address: "10.2.2.{{ last_octet + 2 }}"
+frontend_ssh_host: "{{ ssh_host + 2 }}"
 frontend_host_project_directory: "/home/{{ owner }}/frontend"
 frontend_docker_image: "nimzy/next-demo-app"
-frontend_ssh_host: "{{ ssh_host + 2 }}"
 
 ################################
 #  Backend load balancer
@@ -47,3 +47,10 @@ server_b_ssh_host: "{{ ssh_host + 5 }}"
 backend_host_project_directory: "/home/{{ owner }}/backend"
 backend_host_settings_path: "{{ backend_host_project_directory }}/django_project/settings.py"
 backend_host_virtual_env_bin_directory: "{{ backend_host_project_directory }}/venv/bin"
+
+################################
+#  Database
+################################
+db_name: "db"
+db_ip_address: "10.2.2.{{ last_octet + 6 }}"
+db_ssh_host: "{{ ssh_host + 6 }}"
