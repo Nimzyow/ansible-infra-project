@@ -25,11 +25,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     {{ frontend_name }}.vm.hostname = "{{ frontend_name }}"
   end
   
-  config.vm.define "{{ backend_load_balancer_name }}" do |{{ backend_load_balancer_name }}|
-    {{ backend_load_balancer_name }}.vm.box = "ubuntu/focal64"
-    {{ backend_load_balancer_name }}.vm.network "forwarded_port", guest:22, host: {{ backend_load_balancer_ssh_host }}
-    {{ backend_load_balancer_name }}.vm.network "private_network", ip: "{{ backend_load_balancer_ip_address }}"
-    {{ backend_load_balancer_name }}.vm.hostname = "{{ backend_load_balancer_name }}"
+  config.vm.define "{{ backend_reverse_proxy_name }}" do |{{ backend_reverse_proxy_name }}|
+    {{ backend_reverse_proxy_name }}.vm.box = "ubuntu/focal64"
+    {{ backend_reverse_proxy_name }}.vm.network "forwarded_port", guest:22, host: {{ backend_reverse_proxy_ssh_host }}
+    {{ backend_reverse_proxy_name }}.vm.network "private_network", ip: "{{ backend_reverse_proxy_ip_address }}"
+    {{ backend_reverse_proxy_name }}.vm.hostname = "{{ backend_reverse_proxy_name }}"
   end
   
   

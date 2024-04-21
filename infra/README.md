@@ -11,7 +11,7 @@ Make sure you have vagrant installed
 # Start
 
 ```
-./start-vms.sh
+./deploy-infra.sh
 ```
 
 # Destroy
@@ -19,3 +19,10 @@ Make sure you have vagrant installed
 ```
 ./destroy-vms.sh
 ```
+
+DB setup
+
+sudo apt update
+sudo apt install postgresql postgresql-contrib
+sudo -u postgres createuser --interactive
+sudo -u postgres createuser --superuser nima

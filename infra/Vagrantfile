@@ -37,11 +37,20 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     server.vm.box = "ubuntu/focal64"
     server.vm.network "forwarded_port", guest:22, host: 2234
     server.vm.network "private_network", ip: "10.2.2.204"
+    server.vm.hostname = "serverA"
   end
   
   config.vm.define "serverB" do |server|
     server.vm.box = "ubuntu/focal64"
     server.vm.network "forwarded_port", guest:22, host: 2235
     server.vm.network "private_network", ip: "10.2.2.205"
+    server.vm.hostname = "serverB"
+  end
+  
+  config.vm.define "db" do |db|
+    db.vm.box = "ubuntu/focal64"
+    db.vm.network "forwarded_port", guest:22, host: 2236
+    db.vm.network "private_network", ip: "10.2.2.206"
+    db.vm.hostname = "db"
   end
 end

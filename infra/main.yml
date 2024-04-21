@@ -7,7 +7,6 @@
     - name: Start Vagrant hosts
       ansible.builtin.include_role:
         name: start_vagrant
-
 - name: Setup inventory file
   hosts: localhost
   vars_files:
@@ -20,6 +19,20 @@
         owner: "{{ lookup('ansible.builtin.env', 'USER') }}"
         group: "staff"
         mode: "0644"
+
+- name: Initialise Database
+  hosts: db
+  vars_files:
+    - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/infra/vars/main.yml"
+  tasks:
+    - name: Install deps
+      ansible.builtin.include_role:
+        name: db
+        tasks_from: install_environment_deps/main.yml
+    - name: Install deps
+      ansible.builtin.include_role:
+        name: db
+        tasks_from: setup_db/main.yml
 
 - name: Initilise Django project
   hosts: webserver
@@ -43,15 +56,15 @@
         name: django_proj
         tasks_from: initialise_systemd/main.yml
 
-- name: Initilise Loadbalancer
-  hosts: reverse_proxy
+- name: Initilise backend loadbalancer
+  hosts: backend_reverse_proxy
   vars_files:
     - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/infra/vars/main.yml"
   tasks:
     - name: Setup environment
       ansible.builtin.include_role:
-        name: loadbalancer
-        tasks_from: install_environment_deps/main.yml
+        name: reverse_proxy
+        tasks_from: backend/main.yml
 
 - name: Initialise frontend
   hosts: frontend
@@ -63,12 +76,12 @@
         name: frontend
         tasks_from: initialise_frontend/main.yml
 
-- name: Initilise frontend Loadbalancer
-  hosts: frontend_load_balancer
+- name: Initilise frontend reverse proxy
+  hosts: frontend_reverse_proxy
   vars_files:
     - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/infra/vars/main.yml"
   tasks:
     - name: Setup environment
       ansible.builtin.include_role:
-        name: loadbalancer
+        name: reverse_proxy
         tasks_from: frontend/main.yml

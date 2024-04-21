@@ -4,15 +4,15 @@
   vars_files:
     - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/infra/vars/main.yml"
   tasks:
-    - name: Check to see if file contains the ip address of "{{ backend_load_balancer_name }}"
-      ansible.builtin.command: grep -q '"{{ backend_load_balancer_ip_address }}"' "{{ local_project_directory }}/experiment/settings.py"
+    - name: Check to see if file contains the ip address of "{{ backend_reverse_proxy_name }}"
+      ansible.builtin.command: grep -q '"{{ backend_reverse_proxy_ip_address }}"' "{{ local_project_directory }}/experiment/settings.py"
       register: ip_check
       changed_when: false
       ignore_errors: true
 
     - name: Register file containing ip address as an ansible fact
       ansible.builtin.set_fact:
-        file_contains_ip: "{{ backend_load_balancer_ip_address in lookup('file', '{{ local_project_directory }}/experiment/settings.py') }}"
+        file_contains_ip: "{{ backend_reverse_proxy_ip_address in lookup('file', '{{ local_project_directory }}/experiment/settings.py') }}"
 
     - name: Update settings.py
       when: ip_check.rc != 0
@@ -21,17 +21,17 @@
           ansible.builtin.replace:
             path: "{{ local_project_directory }}/experiment/settings.py"
             regexp: '(CORS_ALLOWED_ORIGINS = \[)'
-            replace: '\1\n\t"http://{{ backend_load_balancer_ip_address }}",'
+            replace: '\1\n\t"http://{{ backend_reverse_proxy_ip_address }}",'
         - name: Update ALLOWED_HOSTS
           ansible.builtin.replace:
             path: "{{ local_project_directory }}/experiment/settings.py"
             regexp: '(ALLOWED_HOSTS = \[)'
-            replace: '\1\n\t"{{ backend_load_balancer_ip_address }}",\n\t"{{ backend_load_balancer_name }}",'
-        - name: Replace existing http address with  http://"{{ backend_load_balancer_ip_address }}"
+            replace: '\1\n\t"{{ backend_reverse_proxy_ip_address }}",\n\t"{{ backend_reverse_proxy_name }}",'
+        - name: Replace existing http address with  http://"{{ backend_reverse_proxy_ip_address }}"
           ansible.builtin.replace:
             path: "{{ local_project_directory }}/experiment/settings.py"
             regexp: '"http://10.2.2[^"]*"'
-            replace: '"http://{{ backend_load_balancer_ip_address }}"'
+            replace: '"http://{{ backend_reverse_proxy_ip_address }}"'
           when: not file_contains_ip
 
     # - name: Update CORS_ALLOWED_ORIGIN and ALLOWED_HOSTS if necessary
@@ -41,4 +41,4 @@
     #       ansible.builtin.lineinfile:
     #         path: "{{ local_project_directory }}/experiment/settings.py"
     #         regexp: '^CORS_ALLOWED_ORIGINS = \[.*\]'
-    #         line: 'CORS_ALLOWED_ORIGINS = [\n\"http://{{ backend_load_balancer_ip_address }}"\n"{{ backend_load_balancer_name }}"]'
+    #         line: 'CORS_ALLOWED_ORIGINS = [\n\"http://{{ backend_reverse_proxy_ip_address }}"\n"{{ backend_reverse_proxy_name }}"]'
