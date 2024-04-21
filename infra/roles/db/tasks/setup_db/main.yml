@@ -1,33 +1,54 @@
 ---
-# This example uses the 'priv' argument which is deprecated.
-# You should use the 'postgresql_privs' module instead.
-- name: Connect to acme database and set user's password with no expire date
-  become: true
-  become_user: postgres
-  become_method: ansible.builtin.sudo
-  community.postgresql.postgresql_user:
-    # db: acme
-    name: django
-    password: mysupersecretword
-    expires: infinity
-    login_user: postgres
-    login_password: password
-
 - name: Create a new database with name "acme"
   become: true
   become_user: postgres
-  become_method: ansible.builtin.sudo
   community.postgresql.postgresql_db:
     name: acme
     login_user: postgres
     login_password: password
 
+# This example uses the 'priv' argument which is deprecated.
+# You should use the 'postgresql_privs' module instead.
+- name: Connect to acme database and set user's password with no expire date
+  become: true
+  become_user: postgres
+  community.postgresql.postgresql_user:
+    # db: acme
+    name: django
+    password: "mysupersecretword"
+    expires: infinity
+    login_user: postgres
+    login_password: password
+
+- name: Grant user replication from network 192.168.0.100/24 access for replication with client cert authentication
+  become: true
+  become_user: root
+  community.postgresql.postgresql_pg_hba:
+    dest: /etc/postgresql/12/main/pg_hba.conf
+    contype: host
+    users: all
+    source: 0.0.0.0/0
+    databases: all
+    method: md5
+    state: present
+
+- name: Configure PostgreSQL. Set listen_addresses.
+  become: true
+  become_user: root
+  ansible.builtin.lineinfile:
+    path: /etc/postgresql/12/main/postgresql.conf
+    regexp: "listen_addresses ="
+    line: "listen_addresses = '*'"
+    state: present
+
 # Note that here "db: postgres" specifies the database to connect to, not the
 # database to grant privileges on (which is specified via the "objs" param)
-- name: GRANT ALL PRIVILEGES ON DATABASE library TO librarian
+- name: GRANT ALL PRIVILEGES ON DATABASE acme TO django
+  become: true
+  become_user: postgres
   community.postgresql.postgresql_privs:
     db: acme
     privs: ALL
-    type: database
-    obj: table
+    type: table
+    obj: ALL_IN_SCHEMA
     role: django
