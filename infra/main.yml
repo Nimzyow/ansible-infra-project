@@ -29,7 +29,7 @@
       ansible.builtin.include_role:
         name: db
         tasks_from: install_environment_deps/main.yml
-    - name: Install deps
+    - name: Setup db
       ansible.builtin.include_role:
         name: db
         tasks_from: setup_db/main.yml
