@@ -41,3 +41,18 @@
   ansible.builtin.pip:
     requirements: "/home/{{ owner }}/backend/requirements.txt"
     virtualenv: "/home/{{ owner }}/backend/venv"
+
+- name: Migrate DB
+  community.general.django_manage:
+    command: migrate
+    project_path: "{{ backend_host_project_directory }}"
+    virtualenv: "{{ backend_host_project_directory }}/venv"
+
+- name: Create an initial superuser
+  register: command_output
+  changed_when: false
+  ignore_errors: true
+  community.general.django_manage:
+    command: "createsuperuser --noinput --username=nimzy --email=nimzy@example.com"
+    project_path: "{{ backend_host_project_directory }}"
+    virtualenv: "{{ backend_host_project_directory }}/venv"
