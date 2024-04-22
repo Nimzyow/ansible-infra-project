@@ -53,6 +53,6 @@
   changed_when: false
   ignore_errors: true
   community.general.django_manage:
-    command: "createsuperuser --noinput --username=nimzy --email=nimzy@example.com"
+    command: "createsuperuser --noinput --username=admin --email=admin@example.com"
     project_path: "{{ backend_host_project_directory }}"
     virtualenv: "{{ backend_host_project_directory }}/venv"
