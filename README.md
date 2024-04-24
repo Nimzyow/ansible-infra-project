@@ -94,19 +94,25 @@ You're a developer and you want to ship your awesome application. It's easy and 
 
 Just to be clear, this is a great thing and it allows developers to focus on bringing value to their application.
 
-I've often been curious about what goes on behind the hood though, especially when it comes to production environments. I hear of load balancing, nginx, caching, SSL termination, MTLS, configuring databases in Linux, security and all these other scary things when it comes to infrastructure. Also how do you configure the infrastructure to serve an application in production.
+I've often been curious about what goes on behind the hood though, especially when it comes to production environments. I hear of load balancing, nginx, caching, SSL termination, MTLS, configuring databases in Linux, security and all these other scary things when it comes to infrastructure. Also how do you configure the infrastructure to serve an application in production?
 
 The point of this project is to help provide an understanding of infrastructure and to know a bit about what's being abstracted away by a PaaS.
 
-One way of approaching this is to identify the individual components needed, like an nginx load balancer, sign up to a cloud provider like AWS, spin up an EC2 instance, ssh into it, install all of the necessary dependencies for nginx and finally install nginx. This is a rather long winded, highly manual and it'll cost money.
+One way of approaching this is to identify the individual components needed, like an nginx load balancer, sign up to a cloud provider like AWS, spin up an EC2 instance, ssh into it, install all of the necessary dependencies for nginx, install nginx and configuring nginx and using systemctl to restart the nginx service. This is a rather long winded, highly manual and it'll cost money.
 
-So instead of EC2 instances, what if we could use vagrant machines on your local machine instead and assign an ip address to each vagrant machine? And instead of manually SSH'ing into your vagrant machine and configuring it each time, what if you could automate this process in an idempotent way? In fact, what if you could spin up a vagrant machine, install dependencies for nginx, install nginx, configure nginx, restart nginx and confirm it's all working in an idempotent way?
+So instead of EC2 instances, what if we could use vagrant machines on your local machine instead and assign an ip address to each vagrant machine? And instead of manually SSH'ing into your vagrant machine and configuring it each time, what if you could automate this process in an idempotent way? In fact, what if you could spin up a vagrant machine, install dependencies for nginx, install nginx, configure nginx, restart nginx and confirm it's all working in an automated and idempotent way?
 
 My friends, this is what this project is all about. This project is an attempt for me to educate myself on what is generally required, from an infrastructure perspective and configuration perspective, to deploy a website that has a client, server and database. We'll be spinning up Vagrant machines and setting them all up to get an idea of what it takes to deploy an application and what a PaaS might be abstracting away from us.
 
 The automation is achieved with Ansible, an automation tool by RedHat. Though we could use bash scripts to write our automation, coding for idempotency is notoriously difficult. Ansible is an industry standard tool for automation that handles idempotency so it only makes sense to use the right tool for the right job. Although I am aware of Chef and dabbled a bit in it, my preference is Ansible so that's what's being used here. 
 
+<!-- ABOUT THE PROJECT -->
+## Diagram of project
 
+<div align="center">
+  <img src="images/infra-diagram.jpeg" alt="Logo" height="800">
+</div>
+  
 
 There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
 
