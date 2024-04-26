@@ -83,9 +83,6 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-PLACE DIAGRAM OF INFRASTructure<br>
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
-
 You're a developer and you want to ship your awesome application. It's easy and you have so much choice whether it's through Netlify, Vercel, AWS Amplify or the 1000 other PaaS. In most cases you sign up to a PaaS and do the following:
 
 * Point to your repository
@@ -112,7 +109,7 @@ The automation is achieved with Ansible, an automation tool by RedHat. Though we
 <div align="center">
   <img src="images/infra-diagram.jpeg" alt="Logo" height="800">
 </div>
-  
+<br/>
 
 There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
 
