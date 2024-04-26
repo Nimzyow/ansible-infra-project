@@ -1,4 +1,11 @@
 ---
+- name: Update postgres user password
+  become: true
+  become_user: postgres
+  community.postgresql.postgresql_user:
+    name: postgres
+    password: "password"
+
 - name: Create a new database with name "acme"
   become: true
   become_user: postgres

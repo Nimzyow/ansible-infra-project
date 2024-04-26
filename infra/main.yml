@@ -7,6 +7,7 @@
     - name: Start Vagrant hosts
       ansible.builtin.include_role:
         name: start_vagrant
+
 - name: Setup inventory file
   hosts: localhost
   vars_files:
@@ -57,17 +58,17 @@
         tasks_from: initialise_systemd/main.yml
 
 - name: Initilise backend loadbalancer
-  hosts: backend_reverse_proxy
+  hosts: backend_load_balancer
   vars_files:
     - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/infra/vars/main.yml"
   tasks:
     - name: Setup environment
       ansible.builtin.include_role:
         name: reverse_proxy
-        tasks_from: backend/main.yml
+        tasks_from: backend_load_balancer/main.yml
 
-- name: Initialise frontend
-  hosts: frontend
+- name: Initialise frontend web app
+  hosts: frontend_web_app
   vars_files:
     - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/infra/vars/main.yml"
   tasks:
@@ -77,11 +78,11 @@
         tasks_from: initialise_frontend/main.yml
 
 - name: Initilise frontend reverse proxy
-  hosts: frontend_reverse_proxy
+  hosts: frontend_load_balancer
   vars_files:
     - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/infra/vars/main.yml"
   tasks:
     - name: Setup environment
       ansible.builtin.include_role:
         name: reverse_proxy
-        tasks_from: frontend/main.yml
+        tasks_from: frontend_load_balancer/main.yml

@@ -1,15 +1,15 @@
 [Unit]
-Description=Start {{ frontend_name }}
+Description=Start {{ frontend_web_app_a_name }}
 After=docker.service
 Requires=docker.service
 
 [Service]
 TimeoutStartSec=0
 Restart=always
-ExecStartPre=-/usr/bin/docker stop {{ frontend_name }}
-ExecStartPre=-/usr/bin/docker rm {{ frontend_name }}
+ExecStartPre=-/usr/bin/docker stop {{ frontend_web_app_a_name }}
+ExecStartPre=-/usr/bin/docker rm {{ frontend_web_app_a_name }}
 ExecStartPre=/usr/bin/docker pull nimzy/next-demo-app
-ExecStart=/usr/bin/docker run --rm --name {{ frontend_name }} -p 3000:3000 {{ frontend_docker_image }}
+ExecStart=/usr/bin/docker run --rm --name {{ frontend_web_app_a_name }} -p 3000:3000 {{ frontend_web_app_docker_image }}
 
 [Install]
 WantedBy=multi-user.target

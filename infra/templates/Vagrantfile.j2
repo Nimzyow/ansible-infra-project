@@ -4,34 +4,61 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Use the same key for each machine
   config.ssh.insert_key = false
 
-  config.vm.define "{{ frontend_reverse_proxy_name }}" do |{{ frontend_reverse_proxy_name }}|
-    {{ frontend_reverse_proxy_name }}.vm.box = "ubuntu/focal64"
-    {{ frontend_reverse_proxy_name }}.vm.network "forwarded_port", guest:22, host: {{ frontend_reverse_proxy_ssh_host }}
-    {{ frontend_reverse_proxy_name }}.vm.network "private_network", ip: "{{ frontend_reverse_proxy_ip_address }}"
-    {{ frontend_reverse_proxy_name }}.vm.hostname = "{{ frontend_reverse_proxy_name }}"
+  config.vm.define "{{ frontend_reverse_proxy_ssl_name }}" do |{{ frontend_reverse_proxy_ssl_name }}|
+    {{ frontend_reverse_proxy_ssl_name }}.vm.box = "ubuntu/focal64"
+    {{ frontend_reverse_proxy_ssl_name }}.vm.network "forwarded_port", guest:22, host: {{ frontend_reverse_proxy_ssl_ssh_host }}
+    {{ frontend_reverse_proxy_ssl_name }}.vm.network "private_network", ip: "{{ frontend_reverse_proxy_ssl_ip_address }}"
+    {{ frontend_reverse_proxy_ssl_name }}.vm.hostname = "{{ frontend_reverse_proxy_ssl_name }}"
   end
 
-  config.vm.define "{{ nomad_name }}" do |{{ nomad_name}}|
-    {{ nomad_name}}.vm.box = "ubuntu/focal64"
-    {{ nomad_name}}.vm.network "forwarded_port", guest:22, host: {{ nomad_ssh_host }}
-    {{ nomad_name}}.vm.network "private_network", ip: "{{ nomad_ip_address }}"
-    {{ nomad_name}}.vm.hostname = "{{ nomad_name}}"
+  config.vm.define "{{ frontend_load_balancer_name }}" do |{{ frontend_load_balancer_name }}|
+    {{ frontend_load_balancer_name }}.vm.box = "ubuntu/focal64"
+    {{ frontend_load_balancer_name }}.vm.network "forwarded_port", guest:22, host: {{ frontend_load_balancer_ssh_host }}
+    {{ frontend_load_balancer_name }}.vm.network "private_network", ip: "{{ frontend_load_balancer_ip_address }}"
+    {{ frontend_load_balancer_name }}.vm.hostname = "{{ frontend_load_balancer_name }}"
   end
 
-  config.vm.define "{{ frontend_name }}" do |{{ frontend_name }}|
-    {{ frontend_name }}.vm.box = "ubuntu/focal64"
-    {{ frontend_name }}.vm.network "forwarded_port", guest:22, host: {{ frontend_ssh_host }}
-    {{ frontend_name }}.vm.network "private_network", ip: "{{ frontend_ip_address }}"
-    {{ frontend_name }}.vm.hostname = "{{ frontend_name }}"
+  config.vm.define "{{ frontend_server_a_name }}" do |{{ frontend_server_a_name }}|
+    {{ frontend_server_a_name }}.vm.box = "ubuntu/focal64"
+    {{ frontend_server_a_name }}.vm.network "forwarded_port", guest:22, host: {{ frontend_server_a_ssh_host }}
+    {{ frontend_server_a_name }}.vm.network "private_network", ip: "{{ frontend_server_a_ip_address }}"
+    {{ frontend_server_a_name }}.vm.hostname = "{{ frontend_server_a_name }}"
+  end
+
+  config.vm.define "{{ frontend_server_b_name }}" do |{{ frontend_server_b_name }}|
+    {{ frontend_server_b_name }}.vm.box = "ubuntu/focal64"
+    {{ frontend_server_b_name }}.vm.network "forwarded_port", guest:22, host: {{ frontend_server_b_ssh_host }}
+    {{ frontend_server_b_name }}.vm.network "private_network", ip: "{{ frontend_server_b_ip_address }}"
+    {{ frontend_server_b_name }}.vm.hostname = "{{ frontend_server_b_name }}"
+  end
+
+  config.vm.define "{{ frontend_web_app_a_name }}" do |{{ frontend_web_app_a_name }}|
+    {{ frontend_web_app_a_name }}.vm.box = "ubuntu/focal64"
+    {{ frontend_web_app_a_name }}.vm.network "forwarded_port", guest:22, host: {{ frontend_web_app_a_ssh_host }}
+    {{ frontend_web_app_a_name }}.vm.network "private_network", ip: "{{ frontend_web_app_a_ip_address }}"
+    {{ frontend_web_app_a_name }}.vm.hostname = "{{ frontend_web_app_a_name }}"
   end
   
-  config.vm.define "{{ backend_reverse_proxy_name }}" do |{{ backend_reverse_proxy_name }}|
-    {{ backend_reverse_proxy_name }}.vm.box = "ubuntu/focal64"
-    {{ backend_reverse_proxy_name }}.vm.network "forwarded_port", guest:22, host: {{ backend_reverse_proxy_ssh_host }}
-    {{ backend_reverse_proxy_name }}.vm.network "private_network", ip: "{{ backend_reverse_proxy_ip_address }}"
-    {{ backend_reverse_proxy_name }}.vm.hostname = "{{ backend_reverse_proxy_name }}"
+  config.vm.define "{{ frontend_web_app_b_name }}" do |{{ frontend_web_app_b_name }}|
+    {{ frontend_web_app_b_name }}.vm.box = "ubuntu/focal64"
+    {{ frontend_web_app_b_name }}.vm.network "forwarded_port", guest:22, host: {{ frontend_web_app_b_ssh_host }}
+    {{ frontend_web_app_b_name }}.vm.network "private_network", ip: "{{ frontend_web_app_b_ip_address }}"
+    {{ frontend_web_app_b_name }}.vm.hostname = "{{ frontend_web_app_b_name }}"
   end
   
+  config.vm.define "{{ backend_reverse_proxy_ssl_name }}" do |{{ backend_reverse_proxy_ssl_name }}|
+    {{ backend_reverse_proxy_ssl_name }}.vm.box = "ubuntu/focal64"
+    {{ backend_reverse_proxy_ssl_name }}.vm.network "forwarded_port", guest:22, host: {{ backend_reverse_proxy_ssl_ssh_host }}
+    {{ backend_reverse_proxy_ssl_name }}.vm.network "private_network", ip: "{{ backend_reverse_proxy_ssl_ip_address }}"
+    {{ backend_reverse_proxy_ssl_name }}.vm.hostname = "{{ backend_reverse_proxy_ssl_name }}"
+  end
+  
+  config.vm.define "{{ backend_load_balancer_name }}" do |{{ backend_load_balancer_name }}|
+    {{ backend_load_balancer_name }}.vm.box = "ubuntu/focal64"
+    {{ backend_load_balancer_name }}.vm.network "forwarded_port", guest:22, host: {{ backend_load_balancer_ssh_host }}
+    {{ backend_load_balancer_name }}.vm.network "private_network", ip: "{{ backend_load_balancer_ip_address }}"
+    {{ backend_load_balancer_name }}.vm.hostname = "{{ backend_load_balancer_name }}"
+  end
   
   config.vm.define "{{ server_a_name }}" do |server|
     server.vm.box = "ubuntu/focal64"

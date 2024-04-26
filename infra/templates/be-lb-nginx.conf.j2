@@ -3,7 +3,7 @@ events {
 }
 
 http {
-  upstream {{ backend_reverse_proxy_name }} {
+  upstream {{ backend_load_balancer_name }} {
     # With this configuration of weights, out of every 3 requests, 2 are sent to server A and 1 to server B.
       server {{ server_a_ip_address }}:8000 weight=3;
       server {{ server_b_ip_address }}:8000 weight=1;
@@ -11,8 +11,9 @@ http {
   
   server {
       location / {
-          proxy_pass http://{{ backend_reverse_proxy_name }};
-          add_header 'Access-Control-Allow-Origin' 'http://{{ frontend_reverse_proxy_ip_address }}';
+          proxy_pass http://{{ backend_load_balancer_name }};
+          add_header 'Access-Control-Allow-Origin' 'http://{{ frontend_web_app_a_ip_address }}';
+          add_header 'Access-Control-Allow-Origin' 'http://{{ frontend_web_app_b_ip_address }}';
           add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
           add_header 'Access-Control-Allow-Headers' 
                       'DNT,

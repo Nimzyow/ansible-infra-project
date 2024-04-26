@@ -6,45 +6,68 @@ ssh_host: 2230
 local_project_directory: "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server"
 
 ################################
-#  Frontend reverse proxy
+#  Frontend reverse proxy SSL
 ################################
-frontend_reverse_proxy_name: "frontendReverseProxy"
-frontend_reverse_proxy_ip_address: "10.2.2.{{ last_octet }}"
-frontend_reverse_proxy_ssh_host: "{{ ssh_host }}"
+frontend_reverse_proxy_ssl_name: "frontendReverseProxySSL"
+frontend_reverse_proxy_ssl_ip_address: "10.2.2.{{ last_octet }}"
+frontend_reverse_proxy_ssl_ssh_host: "{{ ssh_host }}"
 
 ################################
-#  Nomad
+#  Frontend load balancer
 ################################
-nomad_name: "nomadLoadBalancer"
-nomad_ip_address: "10.2.2.{{ last_octet + 1 }}"
-nomad_ssh_host: "{{ ssh_host + 1 }}"
+frontend_load_balancer_name: "frontendLoadBalancer"
+frontend_load_balancer_ip_address: "10.2.2.{{ last_octet + 1 }}"
+frontend_load_balancer_ssh_host: "{{ ssh_host + 1 }}"
 
 ################################
-#  Frontend
+#  frontend server
 ################################
-frontend_name: "frontendWebApp"
-frontend_ip_address: "10.2.2.{{ last_octet + 2 }}"
-frontend_ssh_host: "{{ ssh_host + 2 }}"
-frontend_host_project_directory: "/home/{{ owner }}/frontend"
-frontend_docker_image: "nimzy/next-demo-app"
+frontend_server_a_name: "frontendServerA"
+frontend_server_a_ip_address: "10.2.2.{{ last_octet + 2 }}"
+frontend_server_a_ssh_host: "{{ ssh_host + 2 }}"
+
+frontend_server_b_name: "frontendServerB"
+frontend_server_b_ip_address: "10.2.2.{{ last_octet + 3 }}"
+frontend_server_b_ssh_host: "{{ ssh_host + 3 }}"
+
+################################
+#  Frontend web application
+################################
+frontend_web_app_a_name: "frontendWebAppA"
+frontend_web_app_a_ip_address: "10.2.2.{{ last_octet + 4 }}"
+frontend_web_app_a_ssh_host: "{{ ssh_host + 4 }}"
+
+frontend_web_app_b_name: "frontendWebAppB"
+frontend_web_app_b_ip_address: "10.2.2.{{ last_octet + 5 }}"
+frontend_web_app_b_ssh_host: "{{ ssh_host + 5 }}"
+
+frontend_web_app_host_project_directory: "/home/{{ owner }}/frontend"
+frontend_web_app_docker_image: "nimzy/next-demo-app"
+
+################################
+#  Backend reverse proxy SSL
+################################
+backend_reverse_proxy_ssl_name: "backendReverseProxySSL"
+backend_reverse_proxy_ssl_ip_address: "10.2.2.{{ last_octet + 6 }}"
+backend_reverse_proxy_ssl_ssh_host: "{{ ssh_host + 6 }}"
 
 ################################
 #  Backend load balancer
 ################################
-backend_reverse_proxy_name: "backendLoadBalancer"
-backend_reverse_proxy_ip_address: "10.2.2.{{ last_octet + 3 }}"
-backend_reverse_proxy_ssh_host: "{{ ssh_host + 3 }}"
+backend_load_balancer_name: "backendLoadBalancer"
+backend_load_balancer_ip_address: "10.2.2.{{ last_octet + 7 }}"
+backend_load_balancer_ssh_host: "{{ ssh_host + 7 }}"
 
 ################################
 #  Backend Django application
 ################################
 server_a_name: "serverA"
-server_a_ip_address: "10.2.2.{{ last_octet + 4 }}"
-server_a_ssh_host: "{{ ssh_host + 4 }}"
+server_a_ip_address: "10.2.2.{{ last_octet + 8 }}"
+server_a_ssh_host: "{{ ssh_host + 8 }}"
 
 server_b_name: "serverB"
-server_b_ip_address: "10.2.2.{{ last_octet + 5 }}"
-server_b_ssh_host: "{{ ssh_host + 5 }}"
+server_b_ip_address: "10.2.2.{{ last_octet + 9 }}"
+server_b_ssh_host: "{{ ssh_host + 9 }}"
 
 backend_host_project_directory: "/home/{{ owner }}/backend"
 backend_host_settings_path: "{{ backend_host_project_directory }}/django_project/settings.py"
@@ -54,5 +77,5 @@ backend_host_virtual_env_bin_directory: "{{ backend_host_project_directory }}/ve
 #  Database
 ################################
 db_name: "db"
-db_ip_address: "10.2.2.{{ last_octet + 6 }}"
-db_ssh_host: "{{ ssh_host + 6 }}"
+db_ip_address: "10.2.2.{{ last_octet + 10 }}"
+db_ssh_host: "{{ ssh_host + 10 }}"

@@ -1,19 +1,27 @@
-[frontend_reverse_proxy]
-vagrant0 ansible_port={{ ssh_host }} ansible_user=vagrant
+[frontend_reverse_proxy_ssl]
+vagrant0 ansible_port={{ frontend_reverse_proxy_ssl_ssh_host }} ansible_user=vagrant
 
-[nomad]
-vagrant1 ansible_port={{ ssh_host + 1 }} ansible_user=vagrant
+[frontend_load_balancer]
+vagrant1 ansible_port={{ frontend_load_balancer_ssh_host }} ansible_user=vagrant
 
-[frontend]
-vagrant2 ansible_port={{ ssh_host + 2 }} ansible_user=vagrant
+[frontend_server]
+vagrant2 ansible_port={{ frontend_server_a_ssh_host }} ansible_user=vagrant
+vagrant3 ansible_port={{ frontend_server_b_ssh_host }} ansible_user=vagrant
 
-[backend_reverse_proxy]
-vagrant3 ansible_port={{ ssh_host + 3 }} ansible_user=vagrant
+[frontend_web_app]
+vagrant4 ansible_port={{ frontend_web_app_a_ssh_host }} ansible_user=vagrant
+vagrant5 ansible_port={{ frontend_web_app_b_ssh_host }} ansible_user=vagrant
+
+[backend_reverse_proxy_ssl]
+vagrant6 ansible_port={{ backend_reverse_proxy_ssl_ssh_host }} ansible_user=vagrant
+
+[backend_load_balancer]
+vagrant6 ansible_port={{ backend_load_balancer_ssh_host }} ansible_user=vagrant
 
 [webserver]
-vagrant4 ansible_port={{ ssh_host + 4 }} ansible_user=vagrant
-vagrant5 ansible_port={{ ssh_host + 5 }} ansible_user=vagrant
+vagrant7 ansible_port={{ server_a_ssh_host }} ansible_user=vagrant
+vagrant8 ansible_port={{ server_b_ssh_host }} ansible_user=vagrant
 
 [db]
-vagrant6 ansible_port={{ ssh_host + 6 }} ansible_user=vagrant
+vagrant9 ansible_port={{ db_ssh_host }} ansible_user=vagrant
 

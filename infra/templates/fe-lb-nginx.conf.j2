@@ -1,0 +1,15 @@
+events {
+  worker_connections  4096;  ## Default: 1024
+}
+http {
+  upstream {{ frontend_load_balancer_name }} {
+      server {{ frontend_web_app_a_ip_address }}:3000 weight=1;
+      server {{ frontend_web_app_b_ip_address }}:3000 weight=3;
+  }
+  
+  server {
+      location / {
+          proxy_pass http://{{ frontend_load_balancer_name }};
+      }
+  }
+}

@@ -8,11 +8,11 @@
       - nginx
     state: present
 
-- name: Configure nginx
+- name: Configure nginx for frontend load balancing
   become: true
   become_user: root
   ansible.builtin.template:
-    src: fe-nginx.conf.j2
+    src: fe-lb-nginx.conf.j2
     dest: "/etc/nginx/nginx.conf"
     owner: root
     group: root

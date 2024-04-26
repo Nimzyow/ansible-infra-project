@@ -1,3 +1,4 @@
 ---
 pip_executable: pip3
 service_name: "{{ app_name }}-gunicorn.service"
+backend_settings_directory: "{{ local_project_directory }}/backend/django_project"
