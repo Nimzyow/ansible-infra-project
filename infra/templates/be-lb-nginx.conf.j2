@@ -12,8 +12,8 @@ http {
   server {
       location / {
           proxy_pass http://{{ backend_load_balancer_name }};
-          add_header 'Access-Control-Allow-Origin' 'http://{{ frontend_web_app_a_ip_address }}';
-          add_header 'Access-Control-Allow-Origin' 'http://{{ frontend_web_app_b_ip_address }}';
+          # need to figure out how to dynamically allocate for 2 frontend web app instance ip addresses in Access-Control-Allow-Origin
+          add_header 'Access-Control-Allow-Origin' '*';
           add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
           add_header 'Access-Control-Allow-Headers' 
                       'DNT,
