@@ -171,6 +171,7 @@ You should see a next.js we application that can successfully communicate with t
 - [ ] Django admin accessible through through ip address of frontend/admin
 - [ ] Write up about nginx servers for frontend
 - [ ] Write up about SSL termination
+- [ ] For CORS we want to avoid '*'. Find a way to enable multiple Access-Control-Allow-Origin headers.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
