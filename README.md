@@ -166,7 +166,7 @@ You should see a next.js we application that can successfully communicate with t
 <!-- ROADMAP -->
 ## Roadmap
 
-- [x] Add Kubernetes for orchestrating next.js containerised app
+- [ ] Add Kubernetes for orchestrating next.js containerised app
 - [x] Add diagram of project
 - [ ] Django admin accessible through through ip address of frontend/admin
 - [ ] Write up about nginx servers for frontend
