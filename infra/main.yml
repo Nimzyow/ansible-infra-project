@@ -1,83 +1,83 @@
 ---
-- name: Initialise Vagrant
-  hosts: localhost
-  vars_files:
-    - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/infra/vars/main.yml"
-  tasks:
-    - name: Start Vagrant hosts
-      ansible.builtin.include_role:
-        name: start_vagrant
+# - name: Initialise Vagrant
+#   hosts: localhost
+#   vars_files:
+#     - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/infra/vars/main.yml"
+#   tasks:
+#     - name: Start Vagrant hosts
+#       ansible.builtin.include_role:
+#         name: start_vagrant
 
-- name: Setup inventory file
-  hosts: localhost
-  vars_files:
-    - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/infra/vars/main.yml"
-  tasks:
-    - name: Template inventory file
-      ansible.builtin.template:
-        src: inventory.ini.j2
-        dest: "{{ local_project_directory }}/infra/inventory/inventory.ini"
-        owner: "{{ lookup('ansible.builtin.env', 'USER') }}"
-        group: "staff"
-        mode: "0644"
+# - name: Setup inventory file
+#   hosts: localhost
+#   vars_files:
+#     - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/infra/vars/main.yml"
+#   tasks:
+#     - name: Template inventory file
+#       ansible.builtin.template:
+#         src: inventory.ini.j2
+#         dest: "{{ local_project_directory }}/infra/inventory/inventory.ini"
+#         owner: "{{ lookup('ansible.builtin.env', 'USER') }}"
+#         group: "staff"
+#         mode: "0644"
 
-- name: Initialise Database
-  hosts: db
-  vars_files:
-    - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/infra/vars/main.yml"
-  tasks:
-    - name: Install deps
-      ansible.builtin.include_role:
-        name: db
-        tasks_from: install_environment_deps/main.yml
-    - name: Setup db
-      ansible.builtin.include_role:
-        name: db
-        tasks_from: setup_db/main.yml
+# - name: Initialise Database
+#   hosts: db
+#   vars_files:
+#     - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/infra/vars/main.yml"
+#   tasks:
+#     - name: Install deps
+#       ansible.builtin.include_role:
+#         name: db
+#         tasks_from: install_environment_deps/main.yml
+#     - name: Setup db
+#       ansible.builtin.include_role:
+#         name: db
+#         tasks_from: setup_db/main.yml
 
-- name: Initilise Django project
-  hosts: webserver
-  vars_files:
-    - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/infra/vars/main.yml"
-  tasks:
-    - name: Setup environment
-      ansible.builtin.include_role:
-        name: django_proj
-        tasks_from: install_environment_deps/main.yml
-    - name: Setup Django
-      ansible.builtin.include_role:
-        name: django_proj
-        tasks_from: setup_django/main.yml
-    - name: Setup Gunicorn
-      ansible.builtin.include_role:
-        name: django_proj
-        tasks_from: setup_gunicorn/main.yml
-    - name: Initialise gunicorn systemd
-      ansible.builtin.include_role:
-        name: django_proj
-        tasks_from: initialise_systemd/main.yml
+# - name: Initilise Django project
+#   hosts: webserver
+#   vars_files:
+#     - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/infra/vars/main.yml"
+#   tasks:
+#     - name: Setup environment
+#       ansible.builtin.include_role:
+#         name: django_proj
+#         tasks_from: install_environment_deps/main.yml
+#     - name: Setup Django
+#       ansible.builtin.include_role:
+#         name: django_proj
+#         tasks_from: setup_django/main.yml
+#     - name: Setup Gunicorn
+#       ansible.builtin.include_role:
+#         name: django_proj
+#         tasks_from: setup_gunicorn/main.yml
+#     - name: Initialise gunicorn systemd
+#       ansible.builtin.include_role:
+#         name: django_proj
+#         tasks_from: initialise_systemd/main.yml
 
-- name: Initilise backend loadbalancer
-  hosts: backend_load_balancer
-  vars_files:
-    - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/infra/vars/main.yml"
-  tasks:
-    - name: Setup environment
-      ansible.builtin.include_role:
-        name: reverse_proxy
-        tasks_from: backend_load_balancer/main.yml
+# - name: Initilise backend loadbalancer
+#   hosts: backend_load_balancer
+#   vars_files:
+#     - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/infra/vars/main.yml"
+#   tasks:
+#     - name: Setup environment
+#       ansible.builtin.include_role:
+#         name: reverse_proxy
+#         tasks_from: backend_load_balancer/main.yml
 
-- name: Initialise frontend web app
-  hosts: frontend_web_app
-  vars_files:
-    - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/infra/vars/main.yml"
-  tasks:
-    - name: Initialise frontend
-      ansible.builtin.include_role:
-        name: frontend
-        tasks_from: initialise_frontend/main.yml
+# - name: Initialise frontend web app
+#   hosts: frontend_web_app
+#   vars_files:
+#     - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/infra/vars/main.yml"
+#   tasks:
+#     - name: Initialise frontend
+#       ansible.builtin.include_role:
+#         name: frontend
+#         tasks_from: initialise_frontend/main.yml
 
-- name: Initilise frontend reverse proxy
+- name: Initilise frontend load balancer
   hosts: frontend_load_balancer
   vars_files:
     - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/infra/vars/main.yml"
@@ -86,3 +86,17 @@
       ansible.builtin.include_role:
         name: reverse_proxy
         tasks_from: frontend_load_balancer/main.yml
+
+- name: Initilise frontend reverse proxy
+  hosts: frontend_reverse_proxy_ssl
+  vars_files:
+    - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/infra/vars/main.yml"
+  tasks:
+    - name: Transfer SSL Keys
+      ansible.builtin.include_role:
+        name: reverse_proxy
+        tasks_from: frontend_reverse_proxy_ssl/transfer_files.yml
+    - name: Setup environment
+      ansible.builtin.include_role:
+        name: reverse_proxy
+        tasks_from: frontend_reverse_proxy_ssl/main.yml
