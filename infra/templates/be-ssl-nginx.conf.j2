@@ -1,0 +1,17 @@
+events {
+  worker_connections  4096;  ## Default: 1024
+}
+http {
+  upstream {{ backend_load_balancer_name }} {
+      server {{ backend_load_balancer_ip_address }}:80;
+  }
+  
+  server {
+    listen 8443 ssl;
+    ssl_certificate /etc/nginx/ssl/cert.pem;
+    ssl_certificate_key /etc/nginx/ssl/key.pem;
+      location / {
+          proxy_pass http://{{ backend_load_balancer_name }};
+      }
+  }
+}

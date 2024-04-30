@@ -12,7 +12,7 @@
   become: true
   become_user: root
   ansible.builtin.template:
-    src: ssl-nginx.conf.j2
+    src: fe-ssl-nginx.conf.j2
     dest: "/etc/nginx/nginx.conf"
     owner: root
     group: root

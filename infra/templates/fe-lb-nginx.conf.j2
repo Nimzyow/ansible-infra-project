@@ -9,6 +9,8 @@ http {
   
   server {
       location / {
+          allow {{ frontend_reverse_proxy_ssl_ip_address }};
+          deny all;
           proxy_pass http://{{ frontend_load_balancer_name }};
           add_header Access-Control-Allow-Origin http://{{ frontend_reverse_proxy_ssl_ip_address }};
           add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
