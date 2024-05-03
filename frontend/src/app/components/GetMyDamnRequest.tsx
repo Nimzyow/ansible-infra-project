@@ -13,7 +13,7 @@ const GetMyDamnRequest = () => {
 
   const request = async () => {
     try {
-      const request = await axios.get("http://10.2.2.207");
+      const request = await axios.get("https://10.2.2.207");
       setStore(request.data.message);
       setLoading(false);
     } catch (error) {
