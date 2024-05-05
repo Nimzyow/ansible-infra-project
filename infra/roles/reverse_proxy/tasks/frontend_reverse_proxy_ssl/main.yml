@@ -8,6 +8,16 @@
       - nginx
     state: present
 
+- name: Copy certificate to nginx/ssl dir
+  become: true
+  become_user: root
+  ansible.builtin.copy:
+    src: "{{ local_project_directory }}/infra/files/"
+    dest: /etc/nginx/ssl
+    owner: "{{ owner }}"
+    group: "{{ group }}"
+    mode: "0644"
+
 - name: Configure nginx for frontend reverse proxy ssl
   become: true
   become_user: root

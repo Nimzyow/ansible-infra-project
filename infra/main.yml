@@ -92,10 +92,6 @@
   vars_files:
     - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/infra/vars/main.yml"
   tasks:
-    - name: Transfer SSL Keys
-      ansible.builtin.include_role:
-        name: reverse_proxy
-        tasks_from: frontend_reverse_proxy_ssl/transfer_files.yml
     - name: Setup environment
       ansible.builtin.include_role:
         name: reverse_proxy

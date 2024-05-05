@@ -1,8 +1,0 @@
----
-- name: Copy a new "sudoers" file into place, after passing validation with visudo
-  ansible.builtin.copy:
-    src: "{{ local_project_directory }}/infra/files/"
-    dest: /home/{{ owner }}
-    owner: "{{ owner }}"
-    group: "{{ group }}"
-    mode: "0644"
