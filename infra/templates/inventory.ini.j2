@@ -16,12 +16,12 @@ vagrant5 ansible_port={{ frontend_web_app_b_ssh_host }} ansible_user=vagrant
 vagrant6 ansible_port={{ backend_reverse_proxy_ssl_ssh_host }} ansible_user=vagrant
 
 [backend_load_balancer]
-vagrant6 ansible_port={{ backend_load_balancer_ssh_host }} ansible_user=vagrant
+vagrant7 ansible_port={{ backend_load_balancer_ssh_host }} ansible_user=vagrant
 
 [webserver]
-vagrant7 ansible_port={{ server_a_ssh_host }} ansible_user=vagrant
-vagrant8 ansible_port={{ server_b_ssh_host }} ansible_user=vagrant
+vagrant8 ansible_port={{ server_a_ssh_host }} ansible_user=vagrant
+vagrant9 ansible_port={{ server_b_ssh_host }} ansible_user=vagrant
 
 [db]
-vagrant9 ansible_port={{ db_ssh_host }} ansible_user=vagrant
+vagrant10 ansible_port={{ db_ssh_host }} ansible_user=vagrant
 

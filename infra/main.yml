@@ -67,6 +67,16 @@
         name: reverse_proxy
         tasks_from: backend_load_balancer/main.yml
 
+- name: Initialise backend reverse proxy
+  hosts: backend_reverse_proxy_ssl
+  vars_files:
+    - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/infra/vars/main.yml"
+  tasks:
+    - name: Setup environment
+      ansible.builtin.include_role:
+        name: reverse_proxy
+        tasks_from: backend_reverse_proxy_ssl/main.yml
+
 - name: Initialise frontend web app
   hosts: frontend_web_app
   vars_files:

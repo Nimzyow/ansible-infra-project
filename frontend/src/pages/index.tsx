@@ -1,12 +1,43 @@
-import Image from 'next/image'
-import axios from 'axios'
-import GetMyDamnRequest from './components/GetMyDamnRequest'
+import Image from "next/image";
+import fetch from "node-fetch";
+import "../app/globals.css";
+import type { InferGetServerSidePropsType, GetServerSideProps } from "next";
+import https from "https";
 
-export default function Home() {
-  
+type Res = {
+  message: string;
+};
+
+export const getServerSideProps = async () => {
+  // Fetch data from external API
+  /**
+   * The below httpsAgent block is VERY STRONGLY NOT RECOMMENDED in a real production environment.
+   * since the below fetch is hitting against a Self signed certificate (made by me),
+   * a normal GET request against the bottom URL will produce a Self signed certificate error.
+   * Since I am not a certified authority, this makes sense. However, in this case this is for demo purposes
+   * and I don't need to check if the certificate is from a certified authority. I just want to demonstrate
+   * traffic being encrypted to the below URL and the nginx reverse proxy performing TLS termination.
+   */
+  const httpsAgent = new https.Agent({
+    rejectUnauthorized: false,
+  });
+  const res = await fetch("https://10.2.2.206", {
+    agent: httpsAgent,
+  });
+  const repo = (await res.json()) as Res;
+  // Pass data to the page via props
+  return { props: { repo } };
+};
+
+export default function Page({
+  repo,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  console.log(repo);
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <GetMyDamnRequest />
+      <div>
+        <p>{repo.message}</p>
+      </div>
       <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
         <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
           Get started by editing&nbsp;
@@ -19,7 +50,7 @@ export default function Home() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            By{' '}
+            By{" "}
             <Image
               src="/vercel.svg"
               alt="Vercel Logo"
@@ -51,7 +82,7 @@ export default function Home() {
           rel="noopener noreferrer"
         >
           <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
+            Docs{" "}
             <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
               -&gt;
             </span>
@@ -59,9 +90,7 @@ export default function Home() {
           <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
             Find in-depth information about Next.js features and API.
           </p>
-          <div>
-            {/* {request()} */}
-          </div>
+          <div>{/* {request()} */}</div>
         </a>
 
         <a
@@ -71,7 +100,7 @@ export default function Home() {
           rel="noopener noreferrer"
         >
           <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
+            Learn{" "}
             <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
               -&gt;
             </span>
@@ -88,7 +117,7 @@ export default function Home() {
           rel="noopener noreferrer"
         >
           <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
+            Templates{" "}
             <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
               -&gt;
             </span>
@@ -105,7 +134,7 @@ export default function Home() {
           rel="noopener noreferrer"
         >
           <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
+            Deploy{" "}
             <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
               -&gt;
             </span>
@@ -116,5 +145,5 @@ export default function Home() {
         </a>
       </div>
     </main>
-  )
+  );
 }
