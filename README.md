@@ -166,9 +166,8 @@ You should see a next.js we application that can successfully communicate with t
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Add Kubernetes for orchestrating next.js containerised app
 - [x] Add diagram of project
-- [ ] Install and fix Nginx SSL in backend. When frontend making request, it has to be on https
+- [x] Install and fix Nginx SSL in backend. When frontend making request, it has to be on https
 - [ ] Django admin accessible through through ip address of frontend/admin
 - [ ] Write up about nginx servers for frontend
 - [ ] Write up about SSL termination
