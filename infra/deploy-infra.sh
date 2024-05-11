@@ -30,6 +30,10 @@ if [vagrant_installed_status -ne 0]
     exit 1
 fi
 
+echo "${GREEN}Starting vagrant-inventory playbook${RESET}"
+ansible-playbook vagrant-inventory.yml -i inventory/inventory.ini -vvv
+echo "${GREEN}Finished playbook${RESET}"
+
 echo "${GREEN}Starting main playbook${RESET}"
 ansible-playbook main.yml -i inventory/inventory.ini -vvv
 echo "${GREEN}Finished playbook${RESET}"

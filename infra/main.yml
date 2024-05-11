@@ -1,26 +1,4 @@
 ---
-- name: Initialise Vagrant
-  hosts: localhost
-  vars_files:
-    - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/infra/vars/main.yml"
-  tasks:
-    - name: Start Vagrant hosts
-      ansible.builtin.include_role:
-        name: start_vagrant
-
-- name: Setup inventory file
-  hosts: localhost
-  vars_files:
-    - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/infra/vars/main.yml"
-  tasks:
-    - name: Template inventory file
-      ansible.builtin.template:
-        src: inventory.ini.j2
-        dest: "{{ local_project_directory }}/infra/inventory/inventory.ini"
-        owner: "{{ lookup('ansible.builtin.env', 'USER') }}"
-        group: "staff"
-        mode: "0644"
-
 - name: Initialise Database
   hosts: db
   vars_files:
