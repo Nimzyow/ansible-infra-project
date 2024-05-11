@@ -1,5 +1,4 @@
 ---
-
 - name: Destroy vagrant
   ansible.builtin.command:
     cmd: "vagrant destroy --force"
@@ -8,5 +7,5 @@
 
 - name: Destroy vagrant history
   ansible.builtin.file:
-    path: "{{ local_project_directory }}/infra/.vagrant"
+    path: "{{ ansible_env.PWD }}.vagrant"
     state: absent

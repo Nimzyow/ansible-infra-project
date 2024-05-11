@@ -3,7 +3,7 @@ last_octet: 200
 owner: vagrant
 group: vagrant
 ssh_host: 2230
-local_project_directory: "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server"
+local_project_directory: "{{ ansible_env.PWD | dirname }}"
 
 ################################
 #  Frontend reverse proxy SSL

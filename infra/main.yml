@@ -2,7 +2,7 @@
 - name: Initialise Database
   hosts: db
   vars_files:
-    - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/infra/vars/main.yml"
+    - "{{ ansible_env.PWD }}/vars/main.yml"
   tasks:
     - name: Install deps
       ansible.builtin.include_role:
@@ -16,7 +16,7 @@
 - name: Initilise Django project
   hosts: webserver
   vars_files:
-    - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/infra/vars/main.yml"
+    - "{{ ansible_env.PWD }}/vars/main.yml"
   tasks:
     - name: Setup environment
       ansible.builtin.include_role:
@@ -38,7 +38,7 @@
 - name: Initilise backend loadbalancer
   hosts: backend_load_balancer
   vars_files:
-    - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/infra/vars/main.yml"
+    - "{{ ansible_env.PWD }}/vars/main.yml"
   tasks:
     - name: Setup environment
       ansible.builtin.include_role:
@@ -48,7 +48,7 @@
 - name: Initialise backend reverse proxy
   hosts: backend_reverse_proxy_ssl
   vars_files:
-    - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/infra/vars/main.yml"
+    - "{{ ansible_env.PWD }}/vars/main.yml"
   tasks:
     - name: Setup environment
       ansible.builtin.include_role:
@@ -58,7 +58,7 @@
 - name: Initialise frontend web app
   hosts: frontend_web_app
   vars_files:
-    - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/infra/vars/main.yml"
+    - "{{ ansible_env.PWD }}/vars/main.yml"
   tasks:
     - name: Initialise frontend
       ansible.builtin.include_role:
@@ -68,7 +68,7 @@
 - name: Initilise frontend load balancer
   hosts: frontend_load_balancer
   vars_files:
-    - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/infra/vars/main.yml"
+    - "{{ ansible_env.PWD }}/vars/main.yml"
   tasks:
     - name: Setup environment
       ansible.builtin.include_role:
@@ -78,7 +78,7 @@
 - name: Initilise frontend reverse proxy
   hosts: frontend_reverse_proxy_ssl
   vars_files:
-    - "{{ lookup('ansible.builtin.env', 'HOME') }}/workspace/projects/ansible-server/infra/vars/main.yml"
+    - "{{ ansible_env.PWD }}/vars/main.yml"
   tasks:
     - name: Setup environment
       ansible.builtin.include_role:
